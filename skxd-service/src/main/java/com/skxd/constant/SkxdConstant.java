@@ -2,7 +2,7 @@ package com.skxd.constant;
 /**
  * <p></p>
  * <p/>
- * Created by zzshang on 2015/8/18.
+ * Created by john on 2015/8/18.
  */
 public class SkxdConstant {
 
