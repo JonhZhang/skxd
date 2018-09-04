@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="TemplateProject">
+
+    <sql id="condition">
+        <where>
+            <if test="search != null and search  != ''">
+                and (name like '${search}%')
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 分页-->
+    <select id="queryProjectPageCount" resultType="java.lang.Integer" parameterType="map">
+        	SELECT
+               count(*)
+            FROM skxd_template_project 
+        <include refid="condition"/>
+    </select>
+    <select id="queryProjectPage" resultType="com.skxd.model.SkxdTemplateProject" parameterType="map">
+        	SELECT
+                id,name,remark,created_date as createdDate,updated_date as updatedDate,created_user as createdUser
+            FROM skxd_template_project
+        <include refid="condition"/>
+        ORDER BY created_date DESC
+    </select>
+</mapper>

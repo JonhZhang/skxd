@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skxd.dao.SkxdTemplateInputMapper">
+  <resultMap id="BaseResultMap" type="com.skxd.model.SkxdTemplateInput">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="input_type" jdbcType="VARCHAR" property="inputType" />
+    <result column="input_name" jdbcType="VARCHAR" property="inputName" />
+    <result column="input_content" jdbcType="VARCHAR" property="inputContent" />
+    <result column="static_type" jdbcType="VARCHAR" property="staticType" />
+    <result column="dictionary_id" jdbcType="VARCHAR" property="dictionaryId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="is_statics" jdbcType="INTEGER" property="isStatics" />
+    <result column="step_id" jdbcType="VARCHAR" property="stepId" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="next" jdbcType="VARCHAR" property="next" />
+    <result column="pre" jdbcType="VARCHAR" property="pre" />
+    <result column="is_required" jdbcType="TINYINT" property="isRequired" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+    <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+    <result column="updated_user" jdbcType="VARCHAR" property="updatedUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, input_type, input_name, input_content, static_type, dictionary_id, project_id, 
+    is_statics, step_id, sort, next, pre, is_required, created_date, updated_date, created_user, 
+    updated_user
+  </sql>
+  <select id="selectByExample" parameterType="com.skxd.model.SkxdTemplateInputExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from skxd_template_input
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from skxd_template_input
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from skxd_template_input
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.skxd.model.SkxdTemplateInputExample">
+    delete from skxd_template_input
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.skxd.model.SkxdTemplateInput">
+    insert into skxd_template_input (id, input_type, input_name, 
+      input_content, static_type, dictionary_id, 
+      project_id, is_statics, step_id, 
+      sort, next, pre, is_required, 
+      created_date, updated_date, created_user, 
+      updated_user)
+    values (#{id,jdbcType=VARCHAR}, #{inputType,jdbcType=VARCHAR}, #{inputName,jdbcType=VARCHAR}, 
+      #{inputContent,jdbcType=VARCHAR}, #{staticType,jdbcType=VARCHAR}, #{dictionaryId,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=VARCHAR}, #{isStatics,jdbcType=INTEGER}, #{stepId,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{next,jdbcType=VARCHAR}, #{pre,jdbcType=VARCHAR}, #{isRequired,jdbcType=TINYINT}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.skxd.model.SkxdTemplateInput">
+    insert into skxd_template_input
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="inputType != null">
+        input_type,
+      </if>
+      <if test="inputName != null">
+        input_name,
+      </if>
+      <if test="inputContent != null">
+        input_content,
+      </if>
+      <if test="staticType != null">
+        static_type,
+      </if>
+      <if test="dictionaryId != null">
+        dictionary_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="isStatics != null">
+        is_statics,
+      </if>
+      <if test="stepId != null">
+        step_id,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="next != null">
+        next,
+      </if>
+      <if test="pre != null">
+        pre,
+      </if>
+      <if test="isRequired != null">
+        is_required,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+      <if test="createdUser != null">
+        created_user,
+      </if>
+      <if test="updatedUser != null">
+        updated_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="inputType != null">
+        #{inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="inputName != null">
+        #{inputName,jdbcType=VARCHAR},
+      </if>
+      <if test="inputContent != null">
+        #{inputContent,jdbcType=VARCHAR},
+      </if>
+      <if test="staticType != null">
+        #{staticType,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="isStatics != null">
+        #{isStatics,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null">
+        #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="next != null">
+        #{next,jdbcType=VARCHAR},
+      </if>
+      <if test="pre != null">
+        #{pre,jdbcType=VARCHAR},
+      </if>
+      <if test="isRequired != null">
+        #{isRequired,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedUser != null">
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.skxd.model.SkxdTemplateInputExample" resultType="java.lang.Integer">
+    select count(*) from skxd_template_input
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update skxd_template_input
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputType != null">
+        input_type = #{record.inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputName != null">
+        input_name = #{record.inputName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inputContent != null">
+        input_content = #{record.inputContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.staticType != null">
+        static_type = #{record.staticType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictionaryId != null">
+        dictionary_id = #{record.dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isStatics != null">
+        is_statics = #{record.isStatics,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepId != null">
+        step_id = #{record.stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.next != null">
+        next = #{record.next,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pre != null">
+        pre = #{record.pre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRequired != null">
+        is_required = #{record.isRequired,jdbcType=TINYINT},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedDate != null">
+        updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        created_user = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedUser != null">
+        updated_user = #{record.updatedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update skxd_template_input
+    set id = #{record.id,jdbcType=VARCHAR},
+      input_type = #{record.inputType,jdbcType=VARCHAR},
+      input_name = #{record.inputName,jdbcType=VARCHAR},
+      input_content = #{record.inputContent,jdbcType=VARCHAR},
+      static_type = #{record.staticType,jdbcType=VARCHAR},
+      dictionary_id = #{record.dictionaryId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      is_statics = #{record.isStatics,jdbcType=INTEGER},
+      step_id = #{record.stepId,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER},
+      next = #{record.next,jdbcType=VARCHAR},
+      pre = #{record.pre,jdbcType=VARCHAR},
+      is_required = #{record.isRequired,jdbcType=TINYINT},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      created_user = #{record.createdUser,jdbcType=VARCHAR},
+      updated_user = #{record.updatedUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skxd.model.SkxdTemplateInput">
+    update skxd_template_input
+    <set>
+      <if test="inputType != null">
+        input_type = #{inputType,jdbcType=VARCHAR},
+      </if>
+      <if test="inputName != null">
+        input_name = #{inputName,jdbcType=VARCHAR},
+      </if>
+      <if test="inputContent != null">
+        input_content = #{inputContent,jdbcType=VARCHAR},
+      </if>
+      <if test="staticType != null">
+        static_type = #{staticType,jdbcType=VARCHAR},
+      </if>
+      <if test="dictionaryId != null">
+        dictionary_id = #{dictionaryId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="isStatics != null">
+        is_statics = #{isStatics,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null">
+        step_id = #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="next != null">
+        next = #{next,jdbcType=VARCHAR},
+      </if>
+      <if test="pre != null">
+        pre = #{pre,jdbcType=VARCHAR},
+      </if>
+      <if test="isRequired != null">
+        is_required = #{isRequired,jdbcType=TINYINT},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedUser != null">
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skxd.model.SkxdTemplateInput">
+    update skxd_template_input
+    set input_type = #{inputType,jdbcType=VARCHAR},
+      input_name = #{inputName,jdbcType=VARCHAR},
+      input_content = #{inputContent,jdbcType=VARCHAR},
+      static_type = #{staticType,jdbcType=VARCHAR},
+      dictionary_id = #{dictionaryId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      is_statics = #{isStatics,jdbcType=INTEGER},
+      step_id = #{stepId,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      next = #{next,jdbcType=VARCHAR},
+      pre = #{pre,jdbcType=VARCHAR},
+      is_required = #{isRequired,jdbcType=TINYINT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_user = #{updatedUser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

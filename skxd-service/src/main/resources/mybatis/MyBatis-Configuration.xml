@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration    
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+     <settings>  
+        <setting name="logImpl" value="LOG4J"/>  
+    </settings>
+
+    <mappers>
+        <mapper resource="mybatis/user.xml"/>
+        <mapper resource="mybatis/module.xml"/>
+        <mapper resource="mybatis/custom.xml"/>
+        <mapper resource="mybatis/device.xml"/>
+        <mapper resource="mybatis/department.xml"/>
+        <mapper resource="mybatis/project.xml"/>
+        <mapper resource="mybatis/step.xml"/>
+        <mapper resource="mybatis/answerValue.xml"/>
+        <mapper resource="mybatis/input.xml"/>
+        <mapper resource="mybatis/skxdUserPosition.xml"/>
+        <mapper resource="mybatis/skxdMessage.xml"/>
+        <mapper resource="mybatis/skxdAdminRole.xml"/>
+        <mapper resource="mybatis/skxdAdminRoleModule.xml"/>
+        <mapper resource="mybatis/skxdAdminUser.xml"/>
+        <mapper resource="mybatis/skxdAdminUserRole.xml"/>
+        <mapper resource="mybatis/skxdAnswer.xml"/>
+        <mapper resource="mybatis/task.xml"/>
+        <mapper resource="mybatis/skxdAnswerPage.xml"/>
+
+        <mapper resource="mybatis/skxdUser.xml"/>
+        <mapper resource="mybatis/skxdArea.xml"/>
+        <mapper resource="mybatis/skxdUserPower.xml"/>
+
+        <mapper resource="mybatis/skxdAdminDictionary.xml"/>
+        <mapper resource="mybatis/skxdAdminDictionaryValue.xml"/>
+        <mapper resource="mybatis/statics.xml"/>
+        <mapper resource="mybatis/skxdQuarter.xml"/>
+
+        <mapper resource="mybatis/repairWarning.xml"/>
+
+    </mappers>
+</configuration>

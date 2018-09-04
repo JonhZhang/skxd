@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="RepairWarning">
+    <sql id="column">
+        rw.id,
+        rw.project_id as projectId,
+        rw.user_id as userId,
+        rw.user_name as userName,
+        rw.device_id as deviceId,
+        rw.device_type as deviceType,
+        rw.device_no as deviceNo,
+        rw.created_date as createdDate
+
+    </sql>
+
+    <sql id="whereClause">
+            <if test="search != null and search  != ''">
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                and rw.user_name like '%${search_1}%'
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+                and rw.device_no like '%${search_2}%'
+            </if>
+    </sql>
+
+    <select id="getSkxdCustomCount" resultType="java.lang.Integer">
+    </select>
+
+    <select id="findListByDeviceId" resultType="com.skxd.model.RepairWarning" parameterType="string">
+
+        SELECT   <include refid="column"></include>
+        FROM `repair_warning` AS rw WHERE rw.`created_date`>DATE_ADD(DATE_FORMAT(NOW() ,'%Y-%m-%d'), INTERVAL -30 DAY)
+        AND rw.`device_id`=#{deviceId}
+    </select>
+
+
+    <select id="findPage" resultType="com.skxd.model.RepairWarning" parameterType="map">
+
+        SELECT   <include refid="column"></include>
+        FROM `repair_warning` AS rw WHERE 1=1
+        <include refid="whereClause"></include>
+
+    </select>
+    <select id="findPageCount" resultType="java.lang.Integer" parameterType="map">
+
+        SELECT  count(1)
+        FROM `repair_warning` AS rw WHERE 1=1
+        <include refid="whereClause"></include>
+
+    </select>
+
+</mapper>

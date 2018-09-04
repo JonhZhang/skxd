@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skxd.dao.SkxdDeviceMapper">
+  <resultMap id="BaseResultMap" type="com.skxd.model.SkxdDevice">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="device_type" jdbcType="VARCHAR" property="deviceType" />
+    <result column="device_no" jdbcType="VARCHAR" property="deviceNo" />
+    <result column="leader_name" jdbcType="VARCHAR" property="leaderName" />
+    <result column="leader_phone" jdbcType="VARCHAR" property="leaderPhone" />
+    <result column="fixed_phone" jdbcType="VARCHAR" property="fixedPhone" />
+    <result column="custom_id" jdbcType="VARCHAR" property="customId" />
+    <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="operator_phone" jdbcType="VARCHAR" property="operatorPhone" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <result column="created_user" jdbcType="VARCHAR" property="createdUser" />
+    <result column="updated_user" jdbcType="VARCHAR" property="updatedUser" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="device_install_type" jdbcType="CHAR" property="deviceInstallType" />
+    <result column="seller" jdbcType="VARCHAR" property="seller" />
+    <result column="server" jdbcType="VARCHAR" property="server" />
+    <result column="install_time" jdbcType="TIMESTAMP" property="installTime" />
+    <result column="installer" jdbcType="VARCHAR" property="installer" />
+    <result column="device_state" jdbcType="VARCHAR" property="deviceState" />
+    <result column="project_remark" jdbcType="VARCHAR" property="projectRemark" />
+    <result column="competitor" jdbcType="VARCHAR" property="competitor" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, device_type, device_no, leader_name, leader_phone, fixed_phone, custom_id, operator_name, 
+    operator_phone, department_id, created_user, updated_user, updated_date, created_date, 
+    device_install_type, seller, server, install_time, installer, device_state, project_remark, 
+    competitor
+  </sql>
+  <select id="selectByExample" parameterType="com.skxd.model.SkxdDeviceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from skxd_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from skxd_device
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from skxd_device
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.skxd.model.SkxdDeviceExample">
+    delete from skxd_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.skxd.model.SkxdDevice">
+    insert into skxd_device (id, device_type, device_no, 
+      leader_name, leader_phone, fixed_phone, 
+      custom_id, operator_name, operator_phone, 
+      department_id, created_user, updated_user, 
+      updated_date, created_date, device_install_type, 
+      seller, server, install_time, 
+      installer, device_state, project_remark, 
+      competitor)
+    values (#{id,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{deviceNo,jdbcType=VARCHAR}, 
+      #{leaderName,jdbcType=VARCHAR}, #{leaderPhone,jdbcType=VARCHAR}, #{fixedPhone,jdbcType=VARCHAR}, 
+      #{customId,jdbcType=VARCHAR}, #{operatorName,jdbcType=VARCHAR}, #{operatorPhone,jdbcType=VARCHAR}, 
+      #{departmentId,jdbcType=VARCHAR}, #{createdUser,jdbcType=VARCHAR}, #{updatedUser,jdbcType=VARCHAR}, 
+      #{updatedDate,jdbcType=TIMESTAMP}, #{createdDate,jdbcType=TIMESTAMP}, #{deviceInstallType,jdbcType=CHAR}, 
+      #{seller,jdbcType=VARCHAR}, #{server,jdbcType=VARCHAR}, #{installTime,jdbcType=TIMESTAMP}, 
+      #{installer,jdbcType=VARCHAR}, #{deviceState,jdbcType=VARCHAR}, #{projectRemark,jdbcType=VARCHAR}, 
+      #{competitor,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.skxd.model.SkxdDevice">
+    insert into skxd_device
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="deviceNo != null">
+        device_no,
+      </if>
+      <if test="leaderName != null">
+        leader_name,
+      </if>
+      <if test="leaderPhone != null">
+        leader_phone,
+      </if>
+      <if test="fixedPhone != null">
+        fixed_phone,
+      </if>
+      <if test="customId != null">
+        custom_id,
+      </if>
+      <if test="operatorName != null">
+        operator_name,
+      </if>
+      <if test="operatorPhone != null">
+        operator_phone,
+      </if>
+      <if test="departmentId != null">
+        department_id,
+      </if>
+      <if test="createdUser != null">
+        created_user,
+      </if>
+      <if test="updatedUser != null">
+        updated_user,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="deviceInstallType != null">
+        device_install_type,
+      </if>
+      <if test="seller != null">
+        seller,
+      </if>
+      <if test="server != null">
+        server,
+      </if>
+      <if test="installTime != null">
+        install_time,
+      </if>
+      <if test="installer != null">
+        installer,
+      </if>
+      <if test="deviceState != null">
+        device_state,
+      </if>
+      <if test="projectRemark != null">
+        project_remark,
+      </if>
+      <if test="competitor != null">
+        competitor,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNo != null">
+        #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderName != null">
+        #{leaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderPhone != null">
+        #{leaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedPhone != null">
+        #{fixedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customId != null">
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorPhone != null">
+        #{operatorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedUser != null">
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceInstallType != null">
+        #{deviceInstallType,jdbcType=CHAR},
+      </if>
+      <if test="seller != null">
+        #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="server != null">
+        #{server,jdbcType=VARCHAR},
+      </if>
+      <if test="installTime != null">
+        #{installTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="installer != null">
+        #{installer,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceState != null">
+        #{deviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRemark != null">
+        #{projectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="competitor != null">
+        #{competitor,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.skxd.model.SkxdDeviceExample" resultType="java.lang.Integer">
+    select count(*) from skxd_device
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update skxd_device
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceType != null">
+        device_type = #{record.deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceNo != null">
+        device_no = #{record.deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaderName != null">
+        leader_name = #{record.leaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaderPhone != null">
+        leader_phone = #{record.leaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixedPhone != null">
+        fixed_phone = #{record.fixedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customId != null">
+        custom_id = #{record.customId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorName != null">
+        operator_name = #{record.operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorPhone != null">
+        operator_phone = #{record.operatorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdUser != null">
+        created_user = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedUser != null">
+        updated_user = #{record.updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedDate != null">
+        updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deviceInstallType != null">
+        device_install_type = #{record.deviceInstallType,jdbcType=CHAR},
+      </if>
+      <if test="record.seller != null">
+        seller = #{record.seller,jdbcType=VARCHAR},
+      </if>
+      <if test="record.server != null">
+        server = #{record.server,jdbcType=VARCHAR},
+      </if>
+      <if test="record.installTime != null">
+        install_time = #{record.installTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.installer != null">
+        installer = #{record.installer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceState != null">
+        device_state = #{record.deviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectRemark != null">
+        project_remark = #{record.projectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.competitor != null">
+        competitor = #{record.competitor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update skxd_device
+    set id = #{record.id,jdbcType=VARCHAR},
+      device_type = #{record.deviceType,jdbcType=VARCHAR},
+      device_no = #{record.deviceNo,jdbcType=VARCHAR},
+      leader_name = #{record.leaderName,jdbcType=VARCHAR},
+      leader_phone = #{record.leaderPhone,jdbcType=VARCHAR},
+      fixed_phone = #{record.fixedPhone,jdbcType=VARCHAR},
+      custom_id = #{record.customId,jdbcType=VARCHAR},
+      operator_name = #{record.operatorName,jdbcType=VARCHAR},
+      operator_phone = #{record.operatorPhone,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      created_user = #{record.createdUser,jdbcType=VARCHAR},
+      updated_user = #{record.updatedUser,jdbcType=VARCHAR},
+      updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      device_install_type = #{record.deviceInstallType,jdbcType=CHAR},
+      seller = #{record.seller,jdbcType=VARCHAR},
+      server = #{record.server,jdbcType=VARCHAR},
+      install_time = #{record.installTime,jdbcType=TIMESTAMP},
+      installer = #{record.installer,jdbcType=VARCHAR},
+      device_state = #{record.deviceState,jdbcType=VARCHAR},
+      project_remark = #{record.projectRemark,jdbcType=VARCHAR},
+      competitor = #{record.competitor,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skxd.model.SkxdDevice">
+    update skxd_device
+    <set>
+      <if test="deviceType != null">
+        device_type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNo != null">
+        device_no = #{deviceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderName != null">
+        leader_name = #{leaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderPhone != null">
+        leader_phone = #{leaderPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="fixedPhone != null">
+        fixed_phone = #{fixedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customId != null">
+        custom_id = #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null">
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorPhone != null">
+        operator_phone = #{operatorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="createdUser != null">
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedUser != null">
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceInstallType != null">
+        device_install_type = #{deviceInstallType,jdbcType=CHAR},
+      </if>
+      <if test="seller != null">
+        seller = #{seller,jdbcType=VARCHAR},
+      </if>
+      <if test="server != null">
+        server = #{server,jdbcType=VARCHAR},
+      </if>
+      <if test="installTime != null">
+        install_time = #{installTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="installer != null">
+        installer = #{installer,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceState != null">
+        device_state = #{deviceState,jdbcType=VARCHAR},
+      </if>
+      <if test="projectRemark != null">
+        project_remark = #{projectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="competitor != null">
+        competitor = #{competitor,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skxd.model.SkxdDevice">
+    update skxd_device
+    set device_type = #{deviceType,jdbcType=VARCHAR},
+      device_no = #{deviceNo,jdbcType=VARCHAR},
+      leader_name = #{leaderName,jdbcType=VARCHAR},
+      leader_phone = #{leaderPhone,jdbcType=VARCHAR},
+      fixed_phone = #{fixedPhone,jdbcType=VARCHAR},
+      custom_id = #{customId,jdbcType=VARCHAR},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      operator_phone = #{operatorPhone,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      device_install_type = #{deviceInstallType,jdbcType=CHAR},
+      seller = #{seller,jdbcType=VARCHAR},
+      server = #{server,jdbcType=VARCHAR},
+      install_time = #{installTime,jdbcType=TIMESTAMP},
+      installer = #{installer,jdbcType=VARCHAR},
+      device_state = #{deviceState,jdbcType=VARCHAR},
+      project_remark = #{projectRemark,jdbcType=VARCHAR},
+      competitor = #{competitor,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

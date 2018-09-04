@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="CUSTOM">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdCustomPage">
+        <where>
+            <if test="search != null and search  != ''">
+                and (sc.custom_name like CONCAT('%','${search}','%' ))
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                and sc.area_no=#{search_1}
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+                and sa.parent=#{search_2}
+            </if>
+            <if test="isSelected != null and isSelected  != ''">
+                <if test="isSelected=='1'.toString()">
+                    and sc.id in
+                    <foreach collection="customIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="isSelected=='0'.toString()">
+                    and sc.id not in
+                    <foreach collection="customIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+            <if test="areaNos != null and areaNos  != ''">
+                AND sc.area_no IN
+                <foreach item="item" index="index" collection="areaNos" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="customName != null and customName  != ''">
+                and  (sc.id IN (
+                SELECT  sd.custom_id   FROM  skxd_device sd
+                WHERE   sd.device_no like CONCAT('%','${customName}','%' ) OR sd.device_type like CONCAT('%','${customName}','%' ) )
+                or sc.custom_name like CONCAT('%','${customName}','%' )
+                )
+            </if>
+        </where>
+    </sql>
+
+    <sql id="whereClauseGetSkxdCustomInfo">
+        <where>
+            <if test="search != null and search  != ''">
+                and (sc.custom_name like CONCAT('%','${search}','%' ))
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                and area_no=#{search_1}
+            </if>
+            <if test="isSelected != null and isSelected  != ''">
+                <if test="isSelected=='1'.toString()">
+                    and id in
+                    <foreach collection="customIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="isSelected=='0'.toString()">
+                    and id not in
+                    <foreach collection="customIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+            <if test="areaNos != null and areaNos  != ''">
+                AND area_no IN
+                <foreach item="item" index="index" collection="areaNos" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="customName != null and customName  != ''">
+                and  (sc.id IN (
+                SELECT  sd.custom_id   FROM  skxd_device sd
+                WHERE   sd.device_no like CONCAT('%','${customName}','%' ) OR sd.device_type like CONCAT('%','${customName}','%' ) )
+                or sc.custom_name like CONCAT('%','${customName}','%' )
+                )
+            </if>
+            <if test="customIds != null and customIds  != ''">
+                AND sc.id IN
+                <foreach item="item" index="index" collection="customIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdCustomCount" resultType="java.lang.Integer">
+        select count(*) from skxd_custom as sc
+        left join skxd_area sa on sc.area_no=sa.area_no
+        <include refid="whereClauseGetSkxdCustomPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdCustomPage" resultType="com.skxd.model.SkxdCustom" parameterType="map">
+        SELECT
+            sc.id AS id,
+            sc.custom_name customName,
+            sc.address address,
+            sc.area_no AS areaNo,
+            sc.created_date as createdDate,
+            sc.custom_level as customLevel,
+            sc.custom_type as customType,
+            sc.room_test as roomTest,
+        sc.created_user as createdUser
+        FROM
+            skxd_custom sc
+        left join skxd_area sa on sc.area_no=sa.area_no
+        <include refid="whereClauseGetSkxdCustomPage"></include>
+        order by sc.created_date desc,sc.area_no asc
+    </select>
+    
+    <select id="queryCustomInfoByUserIdCount" resultType="java.lang.Integer" parameterType="map">
+      SELECT  count(*)
+      FROM skxd_custom sc
+      <include refid="whereClauseGetSkxdCustomInfo"></include>
+    </select>
+    
+    <select id="queryCustomInfoByUserId" resultType="com.skxd.model.SkxdCustom" parameterType="map">
+      SELECT  
+        id,custom_name as customName,address,area_no as areaNo,created_date as createdDate,
+        custom_level as customLevel,custom_type as customType, room_test as roomTest
+      FROM skxd_custom sc
+       <include refid="whereClauseGetSkxdCustomInfo"></include>
+    </select>
+
+    <insert id="batchAddSkxdCustom" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into skxd_custom (id,custom_name,address,area_no,created_date,custom_level,custom_type,room_test)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.customName},#{item.address},#{item.areaNo},now(),#{item.customLevel},#{item.customType},#{item.roomTest})
+        </foreach>
+    </insert>
+</mapper>

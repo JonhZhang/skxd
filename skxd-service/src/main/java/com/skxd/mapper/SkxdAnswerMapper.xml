@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skxd.dao.SkxdAnswerMapper">
+  <resultMap id="BaseResultMap" type="com.skxd.model.SkxdAnswer">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="orderNo" jdbcType="VARCHAR" property="orderno" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="leader_id" jdbcType="VARCHAR" property="leaderId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="device_id" jdbcType="VARCHAR" property="deviceId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="answer_json_data" jdbcType="VARCHAR" property="answerJsonData" />
+    <result column="sign" jdbcType="VARCHAR" property="sign" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
+    <result column="updated_date" jdbcType="TIMESTAMP" property="updatedDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, orderNo, title, leader_id, project_id, device_id, user_id, answer_json_data, 
+    sign, status, created_date, updated_date
+  </sql>
+  <select id="selectByExample" parameterType="com.skxd.model.SkxdAnswerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from skxd_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from skxd_answer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from skxd_answer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.skxd.model.SkxdAnswerExample">
+    delete from skxd_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.skxd.model.SkxdAnswer">
+    insert into skxd_answer (id, orderNo, title, 
+      leader_id, project_id, device_id, 
+      user_id, answer_json_data, sign, 
+      status, created_date, updated_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{leaderId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{answerJsonData,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.skxd.model.SkxdAnswer">
+    insert into skxd_answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderno != null">
+        orderNo,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="leaderId != null">
+        leader_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="deviceId != null">
+        device_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="answerJsonData != null">
+        answer_json_data,
+      </if>
+      <if test="sign != null">
+        sign,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createdDate != null">
+        created_date,
+      </if>
+      <if test="updatedDate != null">
+        updated_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null">
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderId != null">
+        #{leaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="answerJsonData != null">
+        #{answerJsonData,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.skxd.model.SkxdAnswerExample" resultType="java.lang.Integer">
+    select count(*) from skxd_answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update skxd_answer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null">
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leaderId != null">
+        leader_id = #{record.leaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceId != null">
+        device_id = #{record.deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerJsonData != null">
+        answer_json_data = #{record.answerJsonData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sign != null">
+        sign = #{record.sign,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdDate != null">
+        created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedDate != null">
+        updated_date = #{record.updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update skxd_answer
+    set id = #{record.id,jdbcType=VARCHAR},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      leader_id = #{record.leaderId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      device_id = #{record.deviceId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      answer_json_data = #{record.answerJsonData,jdbcType=VARCHAR},
+      sign = #{record.sign,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      created_date = #{record.createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{record.updatedDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.skxd.model.SkxdAnswer">
+    update skxd_answer
+    <set>
+      <if test="orderno != null">
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="leaderId != null">
+        leader_id = #{leaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="answerJsonData != null">
+        answer_json_data = #{answerJsonData,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null">
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdDate != null">
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null">
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.skxd.model.SkxdAnswer">
+    update skxd_answer
+    set orderNo = #{orderno,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      leader_id = #{leaderId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      answer_json_data = #{answerJsonData,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="SkxdUserPower">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdUserPowerPage">
+        <where>
+            <if test="search != null and search  != ''">
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdUserPowerCount" resultType="java.lang.Integer">
+        select count(*) from skxd_user_power as table1
+        <include refid="whereClauseGetSkxdUserPowerPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdUserPowerPage" resultType="com.skxd.model.SkxdUserPower" parameterType="map">
+        SELECT
+                    id as id,
+                    user_id as userId,
+                    province_no as provinceNo,
+                    city_no as cityNo,
+                    custom_id as customId,
+                    device_id as deviceId,
+                    created_time as createdTime,
+                    updated_time as updatedTime
+        FROM
+        skxd_user_power table1
+        <include refid="whereClauseGetSkxdUserPowerPage"></include>
+        order by table1.created_date desc
+    </select>
+</mapper>

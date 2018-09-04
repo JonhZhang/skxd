@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="SkxdAdminDictionary">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdAdminDictionaryPage">
+        <where>
+            <if test="search != null and search  != ''">
+                and table1.name like CONCAT('%','${search}','%' )
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdAdminDictionaryCount" resultType="java.lang.Integer">
+        select count(*) from skxd_admin_dictionary as table1
+        <include refid="whereClauseGetSkxdAdminDictionaryPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdAdminDictionaryPage" resultType="com.skxd.model.SkxdAdminDictionary" parameterType="map">
+        SELECT
+            id as id,
+            name as name,
+            created_time as createdTime,
+            updated_time as updatedTime
+        FROM
+        skxd_admin_dictionary table1
+        order by table1.created_time desc
+        <include refid="whereClauseGetSkxdAdminDictionaryPage"></include>
+    </select>
+</mapper>

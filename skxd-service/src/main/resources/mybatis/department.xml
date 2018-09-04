@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="DEPARTMENT">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdDepartmentPage">
+        <where>
+            <if test="search != null and search  != ''">
+                and (sd.department_name like '${search}%' )
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdDepartmentCount" resultType="java.lang.Integer">
+        select count(*) from skxd_department as sd
+        <include refid="whereClauseGetSkxdDepartmentPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdDepartmentPage" resultType="com.skxd.model.SkxdDepartment" parameterType="map">
+        SELECT sd.id as id,sd.department_name as departmentName FROM skxd_department sd
+        <include refid="whereClauseGetSkxdDepartmentPage"></include>
+        order by sd.created_date desc
+    </select>
+</mapper>

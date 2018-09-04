@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="SkxdAnswerPage">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdAnswerPage">
+        <where>
+            and sa.user_id = su.id
+            and sa.project_id = stp.id
+            <if test="search != null and search  != ''">
+                and su.user_name like '%${search}%'
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                and sa.title like '%${search_1}%'
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+                and stp.name like '%${search_2}%'
+            </if>
+            <if test="search_3 != null and search_3 != ''">
+                and sa.project_id=#{search_3}
+            </if>
+
+            <if test="search_4 != null and search_4  != ''">
+                and sa.orderno like '%${search_4}%'
+            </if>
+
+            <if test="search_5 != null and search_5  != ''">
+                AND DATE_FORMAT(sa.created_date,'%Y-%m-%d') >=  '${search_5}' and DATE_FORMAT(sa.created_date,'%Y-%m-%d')  &lt;='${search_6}'
+            </if>
+
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdAnswerCount" resultType="java.lang.Integer">
+        select count(*) FROM
+        skxd_answer sa,
+        skxd_user su,
+        skxd_template_project stp
+        <include refid="whereClauseGetSkxdAnswerPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdAnswerPage" resultType="com.skxd.vo.SkxdAnswerPageVo" parameterType="map">
+        SELECT
+        sa.id as id,
+        sa.title,
+        sa.orderno,
+        stp.name as projectName,
+        su.user_name as userName,
+        sa.status,
+        sa.created_date as createdDate
+        FROM
+        skxd_answer sa,
+        skxd_user su,
+        skxd_template_project stp
+        <include refid="whereClauseGetSkxdAnswerPage"></include>
+        order by sa.created_date desc
+    </select>
+
+    <select id="getSkxdAnswerValueList" resultType="com.skxd.vo.SkxdAnswerValueVo" parameterType="map">
+        SELECT
+        sav.input_id AS inputId,
+        sav.`value` AS VALUE,
+        sav.answer_id AS answerId,
+        sav.input_type AS inputType,
+        sd.device_state AS deviceState,
+        sd.device_type AS deviceType,
+        sd.device_no AS deviceNo,
+        sc.custom_name AS customName,
+        sc.custom_level AS customLevel,
+        sc.custom_type AS customType,
+        sc.address AS address,
+        sd.installer AS installer,
+        sd.seller AS seller,
+        sd. SERVER AS SERVER,
+        su.user_name AS userName,
+        sa.title,
+        sa.orderno,
+        sb.user_name AS leaderName
+        FROM
+        skxd_answer sa,
+        skxd_answer_value sav,
+        skxd_template_input sti,
+        skxd_device sd,
+        skxd_custom sc,
+        skxd_user su,
+        skxd_user sb
+        WHERE sa.project_id=#{projectId} and sa.id=sav.answer_id and sav.input_id=sti.id
+        AND  sti.input_type!='view' AND  sti.input_type!='title'
+        AND sa.device_id=sd.id
+        AND sd.custom_id=sc.id
+        AND sa.user_id=su.id
+        AND sb.`id`=sa.`leader_id`
+        <if test="startDate != null and startDate != ''"  >
+            AND  DATE_FORMAT(sa.`created_date`,'%Y-%m-%d') >= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''"  >
+            AND DATE_FORMAT(sa.`created_date`,'%Y-%m-%d') &lt;= #{endDate}
+        </if>
+        ORDER BY sti.created_date ASC
+    </select>
+</mapper>

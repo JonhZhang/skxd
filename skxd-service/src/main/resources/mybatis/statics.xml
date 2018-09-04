@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="statics">
+
+    <!--查询统计-->
+    <select id="selectStatics" parameterType="String" resultType="com.skxd.vo.StaticsVo">
+        SELECT
+            sti.input_name AS name,
+            sum(VALUE) AS total,
+            sti.static_type as staticType,
+            DATE_FORMAT(sa.created_date, '%m') AS month,
+            DATE_FORMAT(sa.created_date, '%Y') AS year
+        FROM
+            skxd_answer_value sav,
+            skxd_answer sa,
+            skxd_template_input sti,
+            skxd_device sd
+        WHERE
+            sav.answer_id = sa.id
+            AND sti.is_statics = 1
+            AND sti.id = sav.input_id
+            AND sa.device_id = sd.id
+            AND DATE_FORMAT(sa.created_date, '%Y') = DATE_FORMAT(NOW(), '%Y')
+            AND sd.custom_id=#{customId}
+            AND sa.status=1
+            <if test="year != null and year  != '' and year!=0">
+                and DATE_FORMAT(sa.created_date, '%Y')=#{year}
+            </if>
+        GROUP BY
+            sti.input_name,sti.static_type,
+            DATE_FORMAT(sa.created_date, '%Y%m')
+        order by sti.static_type asc
+    </select>
+
+    <insert id="batchAddSkxdQuarter" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT INTO skxd_quarter (
+             id,custom_id,custom_name,NAME,YEAR,spring,summer,autumn,winter,created_time,static_type
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.customId},#{item.customName},#{item.name},#{item.year},#{item.spring},#{item.summer},#{item.autumn},#{item.winter},now(),#{item.staticType})
+        </foreach>
+    </insert>
+</mapper>

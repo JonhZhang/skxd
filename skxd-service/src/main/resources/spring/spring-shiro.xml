@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->
+
+    <bean id="ymsjAdminRealm" class="com.skxd.service.SkxdAdminRealm"></bean>
+
+    <!--<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+        <!--<property name="configLocation"  value="classpath:ehcache.xml"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">-->
+        <!--<constructor-arg value="sid"/>-->
+        <!--<property name="httpOnly" value="true"/>-->
+    <!--</bean>-->
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="ymsjAdminRealm"/>
+        <!--<property name="sessionManager" ref="sessionManager"/>-->
+    </bean>
+
+    <!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
+        <!--<property name="sessionDAO" ref="sessionDAO"/>-->
+        <!--<property name="globalSessionTimeout" value="3600000"/>-->
+        <!--<property name="sessionIdCookieEnabled" value="true"/>-->
+        <!--<property name="deleteInvalidSessions" value="true"/>-->
+    <!--</bean>-->
+
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+    </bean>
+
+    <!--注解方式-->
+    <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+        <!--<property name="securityManager" ref="securityManager"/>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">-->
+        <!--<property name="proxyTargetClass" value="true" />-->
+    <!--</bean>-->
+    <!-- Shiro主过滤器本身功能十分强大,其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行 -->
+    <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login/toLogin"/>
+        <property name="successUrl" value="/admin/common/index"/>
+        <property name="unauthorizedUrl" value="/login/toLogin"/>
+        <property name="filterChainDefinitionMap" ref="chainDefinitionSectionMetaSource"/>
+        <!--<property name="filterChainDefinitions">-->
+            <!--<value>-->
+                <!--/login/**=anon-->
+                <!--/admin/common/**=authc-->
+                <!--/admin/ymsjModule/queryYmsjModulelist**=authc-->
+            <!--</value>-->
+        <!--</property>-->
+    </bean>
+    <bean id="chainDefinitionSectionMetaSource" class="com.skxd.service.ChainDefinitionSectionMetaSource">
+        <property name="filterChainDefinitions">
+            <value>
+                /login/**=anon
+                /admin/common/**=authc
+                /admin/ymsjModule/queryYmsjModulelist**=authc
+            </value>
+        </property>
+    </bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+</beans>

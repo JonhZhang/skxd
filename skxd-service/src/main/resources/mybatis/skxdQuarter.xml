@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="SkxdQuarter">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdQuarterPage">
+        <where>
+            <if test="search != null and search  != ''">
+                and table1.year=#{search}
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdQuarterCount" resultType="java.lang.Integer">
+        select count(*) from skxd_quarter as table1
+        <include refid="whereClauseGetSkxdQuarterPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdQuarterPage" resultType="com.skxd.model.SkxdQuarter" parameterType="map">
+        SELECT
+            id as id,
+            custom_id as customId,
+            custom_name as customName,
+            name as name,
+            year as year,
+            spring as spring,
+            summer as summer,
+            autumn as autumn,
+            winter as winter,
+            static_type as staticType,
+            created_time as createdTime
+        FROM
+        skxd_quarter table1
+        <include refid="whereClauseGetSkxdQuarterPage"></include>
+    </select>
+</mapper>

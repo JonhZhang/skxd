@@ -1,0 +1,106 @@
+.number_404 {
+    display: inline-block;
+    letter-spacing: -10px;
+    font-size: 128px;
+    font-weight: 300;
+    color: #7bbbd6;
+    MARGIN-LEFT: auto;
+    height:200px;
+    width:400px;
+    vertical-align:middle;
+    line-height:200px;
+}
+/*----------宽度--------------*/
+
+.skxd-width-100  {
+	width:100px;
+}
+.skxd-width-200  {
+	width:200px;
+}
+.skxd-width-300  {
+	width:300px;
+}
+.skxd-width-400  {
+	width:400px;
+}
+.skxd-width-500  {
+	width:500px;
+}
+.skxd-width-600  {
+	width:600px;
+}
+.skxd-width-700  {
+	width:700px;
+}
+.skxd-width-800  {
+	width:800px;
+}
+
+/*----------高度--------------*/
+.skxd-height-15 {
+	height:15px;
+}
+.skxd-height-30 {
+	height:30px;
+}
+.skxd-height-50 {
+	height:50px;
+}
+.skxd-height-100 {
+	height:100px;
+}
+.skxd-height-150 {
+	height:150px;
+}
+.skxd-height-200 {
+	height:200px;
+}
+.skxd-height-250 {
+	height:250px;
+}
+
+
+/*----------margin--------------*/
+.skxd-mrgL-10 {
+	margin-left: 10px;
+}
+.skxd-mrgL-15 {
+	margin-left: 15px;
+}
+
+.skxd-mrgL-20 {
+	margin-left: 20px;
+}
+
+/*----------padding--------------*/
+.skxd-padT-15 {
+	padding-top: 15px;
+}
+.skxd-padT-20 {
+	padding-top: 20px;
+}
+.skxd-padB-20 {
+	padding-bottom: 20px;
+}
+
+.skxd-float-left {
+	float: left;
+}
+.skxd-clear {
+	clear: both;
+}
+
+.skxd-condition-l {
+	float:left;
+	height:35px;
+	line-height: 35px;
+}
+
+.skxd-font-low {
+	font-size:10px;
+	color:#6b757c;
+}
+.skxd-cursor-hand{
+	cursor: pointer;
+}

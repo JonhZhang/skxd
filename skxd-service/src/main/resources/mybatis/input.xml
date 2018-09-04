@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="TemplateInput">
+
+    <sql id="condition">
+	    <where>
+                AND input.project_id=#{projectId}
+	    	<if test="search != null and search  != ''">
+                AND (input.input_name like '${search}%'  )
+      			OR (input.input_content like '${search}%'  )
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                AND (input.is_statics = #{search_1} )
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+                AND input.`step_id`=#{search_2}
+            </if>
+	    </where>
+    </sql>
+
+    <select id="queryPageCount" resultType="java.lang.Integer" parameterType="map">
+        	SELECT
+               count(*)
+            FROM skxd_template_input   AS input 
+        <include refid="condition"/>
+    </select>
+
+    <select id="queryPage" resultType="com.skxd.model.SkxdTemplateInput" parameterType="map">
+        	SELECT input.`id`,input.`input_type` AS inputType ,
+			input.`input_name` AS inputName,input.`input_content` AS inputContent,
+            input.created_date AS createdDate,input.is_statics AS isStatics,input.`dictionary_id` as dictionaryId,
+            input.static_type as staticType,
+            input.is_required as isRequired
+			FROM `skxd_template_input` AS input inner join skxd_template_step sts on input.step_id=sts.id
+        <include refid="condition"/>
+        ORDER BY sts.sort,input.sort ASC
+    </select>
+
+    <select id="findPreInputBySort" resultType="com.skxd.model.SkxdTemplateInput" parameterType="map">
+        SELECT
+        input.id,
+        input.input_type AS inputType ,
+        input.input_name AS inputName,
+        input.input_content AS inputContent,
+        input.sort AS sort,
+        created_date AS createdDate,
+        is_statics AS isStatics,
+        dictionary_id as dictionaryId,
+        static_type as staticType
+        FROM skxd_template_input input WHERE step_id=#{stepId} and sort in
+        (SELECT max(sort) FROM skxd_template_input WHERE step_id=#{stepId} and sort &lt; #{sort});
+    </select>
+
+</mapper>

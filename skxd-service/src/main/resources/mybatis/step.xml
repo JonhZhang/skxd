@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="TemplateStep">
+
+    <sql id="condition">
+	    <where>
+	    	skxd_template_step.project_id=#{projectId}
+	    	<if test="search != null and search  != ''">
+                and (skxd_template_step.step_name like '${search}%'  )
+            </if>
+	    </where>
+    </sql>
+
+
+
+    <select id="queryPageCount" resultType="java.lang.Integer" parameterType="map">
+        	SELECT
+               count(*)
+            FROM skxd_template_step 
+        <include refid="condition"/>
+    </select>
+    <select id="queryPage" resultType="com.skxd.model.SkxdTemplateStep" parameterType="map">
+        	SELECT
+                id,step_name AS stepName,created_date AS createdDate,sort
+            FROM skxd_template_step 
+        <include refid="condition"/>
+        ORDER BY skxd_template_step.sort ASC
+    </select>
+    
+     <select id="findPreStepBySort" resultType="com.skxd.model.SkxdTemplateStep" parameterType="map">
+     <![CDATA[
+        SELECT
+        step.id,
+        step.step_name AS stepName ,
+        step.sort 
+        FROM `skxd_template_step` step WHERE step.project_id=#{projectId} AND sort IN
+        (SELECT MAX(sort) FROM skxd_template_step WHERE project_id=#{projectId} AND sort < #{sort});
+         ]]>     
+    </select>
+    
+</mapper>

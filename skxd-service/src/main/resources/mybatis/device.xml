@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="DEVICE">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdDevicePage">
+        <where>
+            <if test="search != null and search  != ''">
+                and (custom.custom_name like CONCAT('%','${search}','%' ) or dept.department_name like CONCAT('%','${search}','%' ))
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+                and sd.device_no  like '${search_1}%'
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+                and sd.device_type  like '${search_2}%'
+            </if>
+            <if test="customId != null and customId  != ''">
+                and sd.custom_id =#{customId}
+            </if>
+            <if test="customIds != null and customIds  != ''">
+                AND sd.custom_id in
+                <foreach item="item" index="index" collection="customIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="deviceArray != null and deviceArray  != ''">
+                AND sd.id in
+                <foreach item="item" index="index" collection="deviceArray" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="search_3 != null and search_3  != ''">
+                <if test="search_3=='1'.toString()">
+                    and sd.id in
+                    <foreach collection="deviceIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="search_3=='0'.toString()">
+                    and sd.id not in
+                    <foreach collection="deviceIds" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdDeviceCount" resultType="java.lang.Integer">
+        select count(*) from skxd_device AS sd
+        LEFT JOIN skxd_custom custom ON sd.custom_id = custom.id
+        LEFT JOIN skxd_department dept ON sd.department_id = dept.id
+        <include refid="whereClauseGetSkxdDevicePage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdDevicePage" resultType="com.skxd.vo.SkxdDeviceVo" parameterType="map">
+        SELECT
+            area2.`name` as province,
+            area1.`name` as city,
+            sd.id AS id,
+            sd.device_no AS deviceNo,
+            sd.device_type AS deviceType,
+            custom.custom_name AS customName,
+            dept.department_name AS departmentName,
+            sd.custom_id AS customId,
+            sd.department_id AS departmentId,
+            sd.created_date AS createdDate,
+            sd.fixed_phone AS fixedPhone,
+            sd.leader_name AS leaderName,
+            sd.leader_phone AS leaderPhone,
+            sd.operator_name AS operatorName,
+            sd.operator_phone AS operatorPhone,
+            sd.seller AS seller,
+            sd. SERVER AS SERVER,
+            sd.install_time AS installTime,
+            sd.installer AS installer,
+            sd.device_state AS deviceState,
+            sd.project_remark AS projectRemark,
+            sd.competitor AS competitor,
+            sd.created_user AS createdUser,
+        custom.custom_type as customType,
+        custom.custom_level as customLevel,
+        custom.room_test as roomTest
+        FROM
+            skxd_device AS sd
+        LEFT JOIN skxd_custom custom  ON sd.custom_id = custom.id
+        LEFT JOIN skxd_department dept ON sd.department_id = dept.id
+        LEFT JOIN skxd_area area1 on custom.area_no=area1.area_no
+        LEFT JOIN skxd_area area2 on area1.parent=area2.area_no
+        <include refid="whereClauseGetSkxdDevicePage"></include>
+        order by sd.created_date desc
+    </select>
+
+    <insert id="batchAddSkxdDevice" useGeneratedKeys="true" parameterType="java.util.List">
+        insert into skxd_device (id,device_no,device_type,custom_id,department_id,fixed_phone,leader_name,leader_phone,operator_name,operator_phone,created_date,server,install_time,installer,device_state,project_remark,competitor,seller)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.id},#{item.deviceNo},#{item.deviceType},#{item.customId},#{item.departmentId},#{item.fixedPhone},#{item.leaderName},#{item.leaderPhone},#{item.operatorName},#{item.operatorPhone},now(),#{item.server},#{item.installTime},#{item.installer},#{item.deviceState},#{item.projectRemark},#{item.competitor},#{item.seller})
+        </foreach>
+    </insert>
+</mapper>

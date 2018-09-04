@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="SkxdUser">
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdUserPage">
+        <where>
+            <if test="search != null and search  != ''">
+            </if>
+            <if test="search_1 != null and search_1  != ''">
+
+            </if>
+            <if test="search_2 != null and search_2  != ''">
+
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdUserCount" resultType="java.lang.Integer">
+        select count(*) from skxd_user as table1
+        <include refid="whereClauseGetSkxdUserPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdUserPage" resultType="com.skxd.model.SkxdUser" parameterType="map">
+        SELECT
+                    id as id,
+                    user_email as userEmail,
+                    password as password,
+                    user_name as userName,
+                    role_id as roleId,
+                    status as status,
+                    created_time as createdTime,
+                    updated_time as updatedTime,
+                    user_area_id as userAreaId
+        FROM
+        skxd_user table1
+        <include refid="whereClauseGetSkxdUserPage"></include>
+        order by table1.created_date desc
+    </select>
+</mapper>

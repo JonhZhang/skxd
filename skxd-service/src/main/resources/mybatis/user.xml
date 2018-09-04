@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "./mybatis-3-mapper.dtd">
+<mapper namespace="USER">
+	
+	<resultMap type="com.skxd.vo.SkxdUserVo" id="userVo" extends="com.skxd.dao.SkxdUserMapper.BaseResultMap"> 
+	       <result property="roleName" column="role_name"/> 
+           <collection property="areas"   javaType="ArrayList" ofType="com.skxd.model.SkxdArea" >
+              <id property="id" column="areaId"/>  
+              <result property="areaNo" column="area_no"/>  
+              <result property="name" column="name"/>  
+              <result property="parent" column="parent"/>  
+              <result property="level" column="level"/>  
+           </collection>
+     </resultMap>
+
+
+	
+    <!-- 用户分页查询条件 -->
+    <sql id="whereClauseGetSkxdUserPage">
+        <where>
+            <if test="userId != null and userId  != ''">
+                 and skxd_user.id =#{userId}
+            </if>
+            <if test="userEmail != null and userEmail  != ''">
+                 and skxd_user.user_email like '%#{userEmail}'
+            </if>
+            <if test="search != null and search  != ''">
+                and (skxd_user.user_email  like CONCAT('%','${search}','%' ) or skxd_user.user_name like CONCAT('%','${search}','%'))
+            </if>
+        </where>
+    </sql>
+
+    <!-- 获取用户列表 -->
+    <select id="getSkxdUserCount" resultType="java.lang.Integer">
+        SELECT  count(*)
+        FROM skxd_user 
+        <include refid="whereClauseGetSkxdUserPage"></include>
+    </select>
+
+    <!-- 获取用户列表 分页-->
+    <select id="getSkxdUserPage"  resultMap="userVo" parameterType="map">
+        SELECT
+        skxd_user.*,skxd_role.*,skxd_area.id AS areaId,skxd_area.name,skxd_area.parent,skxd_area.level
+        ,skxd_area.`area_no`
+        FROM(
+
+        SELECT
+        *
+        FROM
+        skxd_user
+        <include refid="whereClauseGetSkxdUserPage"></include>
+        ORDER BY skxd_user.`created_time` DESC
+        LIMIT #{beginPos},#{rows}
+
+        ) AS skxd_user
+
+        LEFT JOIN skxd_role ON(skxd_role.id=skxd_user.role_id)
+        LEFT JOIN `skxd_user_area` ON(skxd_user_area.`user_id`=skxd_user.`id`)
+        LEFT JOIN skxd_area ON(skxd_area.`id`=skxd_user_area.`area_id`)
+
+        order by skxd_user.created_time desc
+    </select>
+
+
+
+
+    <select id="findLeaders"  resultType="com.skxd.model.SkxdUser" parameterType="map">
+        SELECT
+
+        s.user_email as userEmail,s.user_name as userName,
+        s.id,role_id as roleId,company
+        FROM skxd_user AS s WHERE FIND_IN_SET(s.`id`,#{userIds})
+    </select>
+
+    <select id="findEngineer"  resultType="com.skxd.model.SkxdUser" parameterType="map">
+        SELECT
+
+        s.user_email as userEmail,s.user_name as userName,
+        s.id,role_id as roleId,company
+
+        FROM skxd_user AS s WHERE FIND_IN_SET(#{id},s.`leader`);
+    </select>
+</mapper>
