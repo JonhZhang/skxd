@@ -1,0 +1,73 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath}" />
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<base href="<%=basePath%>">
+<script type="text/javascript">
+    var contextPath = "${ctx}";
+</script>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>生命花后台管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="${ctx}/resources/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <script src="${ctx}/resources/bootstrap/js/jquery-1.10.2.min.js"></script>
+    <link href="${ctx}/resources/assets/admin/pages/css/login.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+</head>
+<body class="login">
+<div class="menu-toggler sidebar-toggler">
+</div>
+<div class="logo">
+    <a href="index.html">
+        <img src="${ctx}/resources/assets/admin/layout/img/logo-big.png" alt=""/>
+    </a>
+</div>
+<div class="content">
+    <form class="login-form" action="index.html" method="post">
+        <h3 class="form-title"></h3>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">用户名</label>
+            <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username" id="userName"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label visible-ie8 visible-ie9">密码</label>
+            <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off"   placeholder="密码" name="password" id="password"/>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn btn-success uppercase" onclick="login();">登录</button>
+        </div>
+    </form>
+</div>
+<script src="${ctx}/resources/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script>
+    function login() {
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        $.ajax({
+            url: "${ctx}/login/execute",
+            data: {userName: userName, password: password},
+            success: function (result) {
+                if (result.status == 0) {
+                    window.location.href = "${ctx}/admin/common/index";
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
+    }
+</script>
+</body>
+</html>
