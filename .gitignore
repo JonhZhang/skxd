@@ -1,0 +1,4 @@
+############################################
+## Generic System Ignores
+syntax: glob
+.idea/*
