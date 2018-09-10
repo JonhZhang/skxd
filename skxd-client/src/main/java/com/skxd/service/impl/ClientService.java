@@ -9,6 +9,7 @@ import com.skxd.controller.util.ReturnResultExt;
 import com.skxd.model.*;
 import com.skxd.service.*;
 import com.skxd.util.Common;
+import com.skxd.util.DateConvertUtils;
 import com.skxd.util.DateUtil;
 import com.skxd.util.PushUtil;
 import com.skxd.vo.PageVo;
@@ -176,6 +177,10 @@ public class ClientService {
         String areaNo = request.getParameter("areaNo");
         String page = request.getParameter("page");
         String rows = request.getParameter("rows");
+
+        String monthNum = request.getParameter("monthNum");
+        String deviceInstallType = request.getParameter("deviceInstallType");
+
         SkxdUser skxdUser = this.userService.querySkxdUserById(userId);
         String[] customIds = null;
         SkxdUserPower skxdUserPower = skxdUserPowerService.getSkxdUserPowerByUserId(userId);
@@ -220,7 +225,15 @@ public class ClientService {
                     }
                 }
                 String[] areaNoArray1 = (String[]) areaNoList.toArray(new String[0]);
-                Page customPage1 = this.customService.queryCustomInfoByUserId(areaNoArray1, customIds, page, rows,customName);
+                Map params = new HashMap();
+                if( EmptyUtils.isNotEmpty(monthNum) ){
+                    Date currentDate = new Date();
+                    Integer num = Integer.valueOf(monthNum);
+                    Date startTime  = DateConvertUtils.addMonth(currentDate,0-num);
+                    params.put("startTime", startTime);
+                    params.put("endTime", currentDate);
+                }
+                Page customPage1 = this.customService.queryCustomInfoByUserId(areaNoArray1, customIds, page, rows,customName,deviceInstallType,params);
                 return ReturnResultExt.returnSuccess((new PageVo()).toPageVo(customPage1));
             }
         } else {

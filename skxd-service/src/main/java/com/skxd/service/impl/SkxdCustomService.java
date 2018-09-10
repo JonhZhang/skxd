@@ -81,13 +81,15 @@ public class SkxdCustomService implements ISkxdCustomService {
         return skxdCustomMapper.selectByExample(example);
     }
 
-    public Page<SkxdCustom> queryCustomInfoByUserId(String[] areaNos, String customIds[], String page, String rows, String customName) {
+    public Page<SkxdCustom> queryCustomInfoByUserId(String[] areaNos, String[] customIds, String page, String rows, String customName, String deviceInstallType, Map params) {
         Map map = new HashMap();
         map.put("areaNos", areaNos);
         map.put("page", page);
         map.put("rows", rows);
         map.put("customIds", EmptyUtils.isEmpty(customIds) ? null : customIds);
         map.put("customName", customName);
+        map.put("deviceInstallType", deviceInstallType);
+        map.putAll(params);
         return selectService.getPage("CUSTOM.queryCustomInfoByUserIdCount", "CUSTOM.queryCustomInfoByUserId", map);
     }
 

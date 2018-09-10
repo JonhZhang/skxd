@@ -27,6 +27,9 @@
             <if test="search != null and search  != ''">
                 and (skxd_user.user_email  like CONCAT('%','${search}','%' ) or skxd_user.user_name like CONCAT('%','${search}','%'))
             </if>
+            <if test="search_2 != null and search_2  != ''">
+                and (skxd_user.assessor='model'  )
+            </if>
         </where>
     </sql>
 

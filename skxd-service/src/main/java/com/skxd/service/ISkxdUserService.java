@@ -65,4 +65,7 @@ public interface ISkxdUserService {
     List<SkxdUser> querySkxdUserList(SkxdUserExample skxdUserExample);
 
     int removeSkxdUsersByIds(String ids)throws Exception;
+
+    //设置成摸板
+    void setModel(String userId);
 }

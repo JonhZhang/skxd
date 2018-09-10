@@ -189,4 +189,12 @@ public class SkxdUserService implements ISkxdUserService {
         skxdAnswerMapper.deleteByExample(skxdAnswerExample);
         return flag;
     }
+
+    @Override
+    public void setModel(String userId) {
+        SkxdUser user = new SkxdUser();
+        user.setId(userId);
+        user.setAssessor("model");
+        skxdUserMapper.updateByPrimaryKeySelective(user);
+    }
 }

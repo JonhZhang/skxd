@@ -9,6 +9,7 @@ import com.skxd.service.ISkxdUserPowerService;
 import com.skxd.service.impl.SkxdUserService;
 import com.skxd.util.HttpUtil;
 import com.skxd.vo.DataTableVo;
+import com.skxd.vo.SkxdUserVo;
 import com.zxs.common.Constant;
 import com.zxs.common.Page;
 import com.zxs.resp.ReturnResult;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -39,6 +41,8 @@ public class AdminSkxdUserPowerController {
 
     @Autowired
     private ISkxdDeviceService skxdDeviceService;
+    @Autowired
+    private SkxdUserService skxdUserService;
 
     @RequestMapping("/toSkxdUserPowerPage")
     public String toSkxdUserPowerPage() {
@@ -106,7 +110,20 @@ public class AdminSkxdUserPowerController {
         } else {
             model.addAttribute("areaNos", level == 1 ? skxdUserPower.getProvinceNo() : skxdUserPower.getCityNo());
         }
+
+
+        Map params = new HashMap();
+        params.put("page","1");
+        params.put("row","1000");
+        params.put("search_2","model");
+        Page<SkxdUserVo> page = skxdUserService.querySkxdUserPage(params);
+
+
         model.addAttribute("level", level);
+        model.addAttribute("skxdUsers", page.getRows());
+
+
+
         return "skxdUserPower/to_select_area";
     }
 
@@ -292,8 +309,10 @@ public class AdminSkxdUserPowerController {
 
     @RequestMapping("/templateConfig")
     @ResponseBody
-    public ReturnResult templateConfig(HttpServletRequest request,final String userId) throws Exception {
-        skxdUserPowerService.templateConfig(userId);
+    public ReturnResult templateConfig(HttpServletRequest request,final String userId,String modelUserId) throws Exception {
+        skxdUserPowerService.templateConfig(userId,modelUserId);
         return ReturnResultUtil.returnSuccess();
     }
+
+
 }

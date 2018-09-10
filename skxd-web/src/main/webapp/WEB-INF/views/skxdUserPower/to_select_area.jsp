@@ -26,6 +26,7 @@
                             </select>
                         </div>
                     </td>
+
                     <td>
                         <input type="button" value="查询" class="btn green"
                                onclick="javascript:TABLE.search('data_table_skxdUserPower',document.getElementById('skxdUserPower_search_all'));"/>
@@ -52,6 +53,32 @@
                         </c:choose>
                     </td>
                 </tr>
+
+
+
+                <table class="common_search">
+                    <tr>
+
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-addon green">模板选择</span>
+                                <select class="form-control" id="modelSelect">
+                                    <option value="" selected="selected">请选择</option>
+                                    <c:forEach var="item" items="${skxdUsers }">
+                                        <option value="${item.id}">${item.userName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </td>
+
+                        <td>
+                            <input type="button" value="复制权限" class="btn green"
+                                   onclick="zxsUser.templateConfig(this)"/>
+                        </td>
+
+                    </tr>
+
+
             </table>
         </div>
         <table id="data_table_skxdUserPower" cellspacing="0" width="100%"
@@ -95,6 +122,25 @@
             }
         });
     };
+
+
+    zxsUser.templateConfig  = function(_this) {
+
+        var modelUserId =  $("#modelSelect").val();
+        $.ajax({
+            url: contextPath + "/admin/skxdUserPower/templateConfig",
+            method: "post",
+            data: {"modelUserId": modelUserId,"userId":userId},
+            success: function (json) {
+                alert('权限复制完成');
+                window.closeMessageDialog();
+            }, error: function (data, status, e) {
+                alert("权限复制完成失败，请确保选择的模板已配置过权限");
+            }
+        });
+
+    };
+
     $(document).ready(function () {
         var table = TABLE.defaultDataTable({
             "table": "data_table_skxdUserPower",

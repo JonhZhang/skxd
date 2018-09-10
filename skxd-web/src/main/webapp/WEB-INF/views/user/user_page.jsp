@@ -24,7 +24,18 @@
                             <span class="input-group-addon green">用户名</span>
                             <input type="text" class="form-control" id="user_search_all" placeholder="请输入用户名"
                                    style="width: 200px;" onblur="TABLE.preSearch('ddataTable-user',this,1);"/>
+
+
+                            <span class="input-group-addon green">是否是模板用户</span>
+                            <select  class="form-control selectpicker" id="isModel" onchange="TABLE.preSearch('dataTable-user',this,2);">
+                                <option value="model">是</option>
+                                <option value="" selected>否</option>
+                            </select>
+
+
                         </div>
+
+
                     </td>
                     <td>
                         <input type="button" value="查询" class="btn green"
@@ -85,7 +96,7 @@ $(document).ready(function () {
                 	widget+= '<a href="javascript:void(0)" userId='+row.id+' status='+row.status+' onclick="zxsUser.audit(this);"> 审核 </a>';
                     widget+= '<a href="javascript:void(0)" onclick="zxsUser.selectRole(\''+row.id+'\');"> 角色选择 </a>';
                     widget+='<a href="javascript:void(0)" userId='+row.id+' onclick="zxsUser.selectAssessor(this)">配置审核员 </a>';
-                    widget+='<a href="javascript:void(0)" userId='+row.id+' onclick="zxsUser.templateConfig(this)">权限复制</a>';
+                    widget+='<a href="javascript:void(0)" userId='+row.id+' onclick="zxsUser.setModel(this)">设置为模板</a>';
                     return widget;
                  }
             },
@@ -225,6 +236,26 @@ $(document).ready(function () {
                     });
                 }
             });
+    };
+
+    zxsUser.setModel  = function(_this) {
+        $viewPanel.find("input[name=select_userId]").val($(_this).attr("userId"));
+        var userId = $(_this).attr("userId");
+
+        messageConfirm({
+            title: "设置模板",
+            content: "您确认要设置该用户为模板用户吗?",
+            callback: function () {
+                $.ajax({
+                    url: contextPath + "/admin/user/setModel",
+                    method: "post",
+                    data: {userId: userId},
+                    success: function (json) {
+                        alert('操作完成');
+                    }
+                });
+            }
+        });
     };
 
 });

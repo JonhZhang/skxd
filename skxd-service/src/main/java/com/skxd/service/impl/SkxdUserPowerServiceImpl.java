@@ -10,20 +10,9 @@ import com.skxd.service.common.SelectService;
 import com.zxs.common.Page;
 import com.zxs.utils.lang.EmptyUtils;
 import com.zxs.utils.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -215,10 +204,10 @@ public class SkxdUserPowerServiceImpl implements ISkxdUserPowerService {
         return null;
     }
 
-    public void templateConfig(String userId) throws Exception {
-        String templateUserId = "f911ab4e27b0e95b5c88e507bb9a7693"; //王旭
+    public void templateConfig(String userId, String modelUserId) throws Exception {
+
         SkxdUserPower userPower = this.findByUserId(userId);
-        SkxdUserPower templateUserPower = this.findByUserId(templateUserId);
+        SkxdUserPower templateUserPower = this.findByUserId(modelUserId);
 
         userPower.setCustomId(templateUserPower.getCustomId());
         userPower.setDeviceId(templateUserPower.getDeviceId());

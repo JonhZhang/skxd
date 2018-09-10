@@ -191,4 +191,12 @@ public class AdminSkxdUserController {
             }
         }
     }
+
+
+    @RequestMapping("/setModel")
+    @ResponseBody
+    public ReturnResult setModel(HttpServletRequest request,final String userId) throws Exception {
+        skxdUserService.setModel(userId);
+        return ReturnResultUtil.returnSuccess();
+    }
 }

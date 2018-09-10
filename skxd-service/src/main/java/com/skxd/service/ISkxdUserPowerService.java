@@ -26,6 +26,6 @@ public interface ISkxdUserPowerService {
 
     public int deleteArea(int level, String value, String userId) throws Exception;
 
-    public void templateConfig(String userId) throws Exception;
+    public void templateConfig(String userId, String modelUserId) throws Exception;
 
 }

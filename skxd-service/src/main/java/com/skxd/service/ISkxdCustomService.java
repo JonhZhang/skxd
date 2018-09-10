@@ -41,9 +41,11 @@ public interface ISkxdCustomService {
      * @param areaNos
      * @param page
      * @param rows
+     * @param deviceInstallTpe
+     * @param params
      * @return
      */
-    Page<SkxdCustom> queryCustomInfoByUserId(String[] areaNos,String customIds[],String page,String rows,String customName);
+    Page<SkxdCustom> queryCustomInfoByUserId(String[] areaNos, String[] customIds, String page, String rows, String customName, String deviceInstallType, Map params);
     /**
      * 根据用户名查询用户信息
      * @param name
