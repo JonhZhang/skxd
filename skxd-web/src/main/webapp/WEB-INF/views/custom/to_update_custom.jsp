@@ -90,6 +90,7 @@
 
                             <form:option value="民营">民营</form:option>
                             <form:option value="私立">私立</form:option>
+                            <form:option value="基层卫生院">基层卫生院</form:option>
                         </form:select>
                     </div>
                 </div>
@@ -101,6 +102,7 @@
                         <i class="fa"></i>
                         <form:select class="form-control" path="roomTest" name="roomTest">
                             <form:option value="">无</form:option>
+                            <form:option value="市级">市级</form:option>
                             <form:option value="部级">部级</form:option>
                             <form:option value="省级">省级</form:option>
                         </form:select>

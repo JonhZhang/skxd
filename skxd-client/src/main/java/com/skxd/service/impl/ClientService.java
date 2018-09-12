@@ -214,7 +214,7 @@ public class ClientService {
                         areaNoList.add(city.getAreaNo());
                     }
                 } else {
-                    String[] areas = new String[]{"110101","110102","110105","110106","110107","110108","110109","110111","110112","110113","110114","110115","110116","110117"};//110100
+                    String[] areas = new String[]{"110100","110101","110102","110105","110106","110107","110108","110109","110111","110112","110113","110114","110115","110116","110117"};//110100
                     List<String> areaList = Arrays.asList(areas);
                     if(area.getAreaNo().equals("110100")) {
                         for(String s :areaList) {
