@@ -78,8 +78,8 @@ jQuery.extend({
                     // Make sure that the request was successful or notmodified
                     if (status != "error") {
                         // process the data (runs the xml through httpData regardless of callback)
-                       var data = jQuery.uploadHttpData(xml, s.dataType);
-                      
+                        var data = jQuery.uploadHttpData(xml, s.dataType);
+
                         if (s.success) {
                             // ifa local callback was specified, fire it and pass it the data
                             s.success(data, status);
@@ -173,7 +173,7 @@ jQuery.extend({
             if ("Chrome" != mb) {
                 eval("data = " + data);
             }else{
-                data = jQuery.parseJSON(jQuery(data).text());
+                data = jQuery.parseJSON(data);
             }
         }
         // evaluate scripts within html
