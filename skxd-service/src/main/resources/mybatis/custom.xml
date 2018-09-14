@@ -87,10 +87,11 @@
                 and  (sc.id IN (
                 SELECT  sd.custom_id   FROM  skxd_device sd
                 WHERE   sd.device_install_type = #{deviceInstallType}
-                <if test="startTime != null and startTime  != ''">
-                    and sd.created_date >#{startTime} AND sd.created_date<![CDATA[<=]]>#{endTime}
-                </if>
+
                 ))
+            </if>
+            <if test="startTime != null and startTime  != ''">
+                and sc.created_date >#{startTime} AND sc.created_date<![CDATA[<=]]>#{endTime}
             </if>
         </where>
     </sql>
