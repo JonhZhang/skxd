@@ -78,10 +78,12 @@
                     #{item}
                 </foreach>
             </if>
-
-
             <if test="customName != null and customName  != ''">
-                and sc.custom_name like CONCAT('%','${customName}','%' )
+                and  (sc.id IN (
+                SELECT  sd.custom_id   FROM  skxd_device sd
+                WHERE   sd.device_no like CONCAT('%','${customName}','%' ) OR sd.device_type like CONCAT('%','${customName}','%' ) )
+                or sc.custom_name like CONCAT('%','${customName}','%' ) OR sc.room_test like CONCAT('%','${customName}','%' )
+                )
             </if>
             <if test="deviceInstallType != null and deviceInstallType  != ''">
                 and  (sc.id IN (
