@@ -325,10 +325,21 @@ public class AdminSkxdCustomController {
             response.setHeader("Content-disposition", "attachment;filename=device" + sdf.format(new Date()) + ".xls");
             out = response.getOutputStream();
             ExportExcel<SkxdDeviceVo> ex = new ExportExcel<SkxdDeviceVo>();
-            String[] headers = {"省","市","客户姓名", "部门名称", "仪器型号", "仪器编号","固定电话","负责人姓名","负责人联系方式","操作员姓名","操作员电话","销售商","服务机构","安装人","安装时间","仪器状态","项目开展情况","对手信息","创建人","创建时间","客户类型","客户级别","室间质评"};
+            String[] headers = {"省","市","客户姓名", "部门名称", "仪器型号", "仪器编号","固定电话","负责人姓名","负责人联系方式","操作员姓名","操作员电话","销售商","服务机构","安装人","安装时间","仪器状态","项目开展情况","对手信息","创建人","创建时间","客户类型","客户级别","室间质评","安装类型"};
             String[] cloumns = {"province","city","customName", "departMentName", "deviceType","deviceNo","fixedPhone","leaderName","leaderPhone","operatorName","operatorPhone","seller","server",
-                    "installer","installTime","deviceState","projectRemark","competitor","createdUser","createdDate","customType","customLevel","roomTest"};
+                    "installer","installTime","deviceState","projectRemark","competitor","createdUser","createdDate","customType","customLevel","roomTest","deviceInstallType"};
             List<SkxdDeviceVo> dataset = skxdDeviceService.queryDeviceList();
+            for(SkxdDeviceVo vo :dataset) {
+                if(vo.getDeviceInstallType() !=null && vo.getDeviceInstallType().equals("newUserInstallation")) {
+                    vo.setDeviceInstallType("新用户安装");
+                }
+                if(vo.getDeviceInstallType() !=null &&vo.getDeviceInstallType().equals("addDeviceNum")) {
+                    vo.setDeviceInstallType("增加仪器数量");
+                }
+                if(vo.getDeviceInstallType() !=null &&vo.getDeviceInstallType().equals("modelUpdate")) {
+                    vo.setDeviceInstallType("型号升级");
+                }
+            }
             ex.exportExcel(headers, cloumns, dataset, out);
             ex.exportExcel(headers, cloumns, dataset, out);
             System.out.println("excel导出成功！");

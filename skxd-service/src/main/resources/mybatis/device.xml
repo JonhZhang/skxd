@@ -81,7 +81,8 @@
             sd.created_user AS createdUser,
         custom.custom_type as customType,
         custom.custom_level as customLevel,
-        custom.room_test as roomTest
+        custom.room_test as roomTest,
+        sd.device_install_type  as deviceInstallType
         FROM
             skxd_device AS sd
         LEFT JOIN skxd_custom custom  ON sd.custom_id = custom.id
