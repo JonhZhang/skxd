@@ -212,6 +212,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="form-group" >
+                <label class="control-label col-md-3">安装类型</label>
+                <div class="col-md-4">
+                    <div class="input-icon right">
+                        <i class="fa"></i>
+                        <form:select class="form-control" path="deviceInstallType" name="deviceInstallType">
+                            <form:option value="newUserInstallation">新用户安装</form:option>
+                            <form:option value="modelUpdate">型号升级</form:option>
+                            <form:option value="addDeviceNum">增加仪器数量</form:option>
+                        </form:select>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="form-actions">
             <div class="row">
