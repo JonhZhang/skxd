@@ -10,7 +10,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <script type="text/javascript">
    var contextPath = "${ctx}";
    //var clientPath="http://localhost:8081/skxd-client/";
-   var clientPath="http://47.105.63.230:8080/skxd-client/";
+   var clientPath="http://112.126.92.135:8082/skxd-client/";
 </script>
 <!--common css-->
 <link href="${ctx}/resources/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>

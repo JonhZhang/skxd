@@ -39,7 +39,7 @@
             var array = imageValue.split(",");
             $("#imageShow").html(" <h4>点击以下地址查看图片</h4><br>");
             for (var i = 0; i < array.length; i++) {
-                var src = "http://101.201.147.34:8081/skxd-client/down/" + array[i] + "/a11.jpg";
+                var src = "http://101.201.147.34:8082/skxd-client/down/" + array[i] + "/a11.jpg";
                 var image=$("<a target='_blank'></a>");
                 $(image).attr("href",src);
                 $(image).html("图片"+(i+1));
