@@ -114,7 +114,7 @@ public class AdminSkxdUserPowerController {
 
         Map params = new HashMap();
         params.put("page","1");
-        params.put("row","1000");
+        params.put("rows","1000");
         params.put("search_2","model");
         Page<SkxdUserVo> page = skxdUserService.querySkxdUserPage(params);
 
