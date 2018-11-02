@@ -295,6 +295,12 @@ public class AdminSkxdCustomController {
                             skxdCustom.setCustomLevel(temp);
                         }if (cell.getCellNum() == 5) {
                             skxdCustom.setRoomTest(temp);
+                        }if (cell.getCellNum() == 6) {
+                            skxdCustom.setLinkman(temp);
+                        }if (cell.getCellNum() == 7) {
+                            skxdCustom.setPhone(temp);
+                        }if (cell.getCellNum() == 8) {
+                            skxdCustom.setItemSpread(temp);
                         }
                     }
                 }
