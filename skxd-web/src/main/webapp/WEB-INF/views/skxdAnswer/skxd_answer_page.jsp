@@ -52,13 +52,13 @@
                     <td>
                         <div class="input-group">
                             <span class="input-group-addon green">开始时间</span>
-                            <input type="text"  id="startDate" onclick="laydate();" class="form-control"  placeholder="" style="width: 200px;height:30px;">
+                            <input type="text"  id="startDate" onclick="laydate();" class="form-control"  placeholder="" style="width: 150px;height:30px;">
                         </div>
                     </td>
                     <td>
                         <div class="input-group">
                             <span class="input-group-addon green">结束时间</span>
-                            <input type="text" id="endDate"  onclick="laydate();" class="form-control"  placeholder="" style="width: 200px;height:30px;">
+                            <input type="text" id="endDate"  onclick="laydate();" class="form-control"  placeholder="" style="width: 150px;height:30px;">
                         </div>
                     </td>
 
